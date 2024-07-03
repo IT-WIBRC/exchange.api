@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  username      String?
+  profile       Profile?
+  group_members GroupMember[]
+  roles         Role[]
+
+  @@map("t_users")
+}
+
+model Profile {
+  id              String    @id @default(uuid())
+  last_connection DateTime
+  date_of_birth   DateTime?
+  photo           String?
+  userEmail       String    @unique
+  users           User      @relation(fields: [userEmail], references: [email], onDelete: NoAction, onUpdate: NoAction)
+  lang            LANGUAGES @default(EN)
+
+  @@map("t_profiles")
+}
+
+model Message {
+  id              String       @id @default(uuid())
+  conversation_id String
+  conversaton     Conversation @relation(fields: [conversation_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sent_datetime   DateTime
+
+  @@map("t_messages")
+}
+
+model Conversation {
+  id            String              @id @default(uuid())
+  type          CONVERSATION_TYPE   @default(SINGLE)
+  group_members GroupMember[]
+  messages      Message[]
+  configs       ConversationConfig?
+  name          String              @unique
+
+  @@map("t_conversations")
+}
+
+model GroupMember {
+  group_member_id String            @id @unique @default(uuid())
+  user_id         String
+  conversation_id String
+  user            User              @relation(fields: [user_id], references: [id])
+  conversation    Conversation      @relation(fields: [conversation_id], references: [id])
+  role            GROUP_MEMBER_ROLE @default(ADMIN)
+  join_time       DateTime
+  left_time       DateTime?
+
+  @@map("t_group_member")
+}
+
+model ConversationConfig {
+  id               String       @id @unique @default(uuid())
+  description      String
+  conversationName String       @unique
+  conversation     Conversation @relation(fields: [conversationName], references: [name])
+
+  @@map("t_conversation_config")
+}
+
+model Role {
+  id          String       @id @unique @default(uuid())
+  name        ROLE
+  user_id     String
+  user        User         @relation(fields: [user_id], references: [id])
+  permissions Permission[]
+}
+
+model Permission {
+  id          String      @id @unique @default(uuid())
+  name        PERMISSIONS @unique
+  description String?
+  roles       Role[]
+}
+
+enum PERMISSIONS {
+  user_read
+  user_edit
+}
+
+enum ROLE {
+  ADMIN
+  USER
+}
+
+enum CONVERSATION_TYPE {
+  SINGLE
+  MULTIPLE
+  SCHEDULED
+}
+
+enum GROUP_MEMBER_ROLE {
+  ADMIN
+  MEMBER
+  SUPER_ADMIN
+}
+
+enum LANGUAGES {
+  FR
+  EN
+}
