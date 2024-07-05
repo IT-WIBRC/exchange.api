@@ -1,0 +1,56 @@
+---
+title: "Confirm your email address"
+preheader: "Please confirm your email address in order to activate your account."
+bodyClass: bg-slate-50
+---
+
+<x-main>
+  <div class="bg-slate-50 sm:px-4 font-sans">
+    <table align="center">
+      <tr>
+        <td class="w-[552px] max-w-full ">
+          <div class="my-12 sm:my-8 text-center">
+            <a href="https://DisKuz.com">
+              <img src="images/DisKuz.png" width="120" alt="DisKuz">
+            </a>
+          </div>
+
+          <table class="w-full">
+            <tr>
+              <td class="p-12 sm:px-6 text-base text-slate-700 bg-white rounded shadow-sm">
+                <h1 class="m-0 mb-6 text-2xl sm:leading-8 text-black font-semibold">
+                  Hi @{{name}},
+                </h1>
+
+                <div class="m-0 leading-6 space-y-3">
+                  <p>Great to see you aboard!</p>
+                  <p>
+                    Let's quick verify your email to get you started. Your verification code is:  
+                    <span class="font-bold italic text-pretty">@{{code}}</span>
+                  </p>
+                  <p>Remember, this code is valid only for the next <mark class="font-medium">10 minutes.</mark> </p>
+                </div>
+
+                <x-spacer height="6px" />
+
+                <p class="leading-6">We can't wait for you to explore all the amazing features we have to offer!</p>
+
+                <x-divider space-y="32px" class="bg-slate-200" />
+
+                <p class="m-0">
+                  If you didn't sign up for <span class="font-bold text-fuchsia-500">DisKuz</span>, you can safely ignore this email.
+                  <br>
+                  <br>
+                  Thanks, <br />The Diskuz Team
+                </p>
+              </td>
+            </tr>
+            <tr role="separator">
+              <td class="leading-12">&zwj;</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</x-main>

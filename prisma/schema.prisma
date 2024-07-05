@@ -12,8 +12,11 @@ model User {
   email         String        @unique
   username      String?
   profile       Profile?
+  password      String        @unique
   group_members GroupMember[]
   roles         Role[]
+  is_active     Boolean       @default(false)
+  create_at     DateTime      @default(now())
 
   @@map("t_users")
 }
@@ -74,27 +77,34 @@ model ConversationConfig {
 
 model Role {
   id          String       @id @unique @default(uuid())
-  name        ROLE
-  user_id     String
-  user        User         @relation(fields: [user_id], references: [id])
+  name        String       @unique
+  description String?
+  users       User[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime?
   permissions Permission[]
+
+  @@map("t_roles")
 }
 
 model Permission {
-  id          String      @id @unique @default(uuid())
-  name        PERMISSIONS @unique
+  id          String    @id @unique @default(uuid())
+  name        String    @unique
   description String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
   roles       Role[]
+
+  @@map("t_persmissions")
 }
 
-enum PERMISSIONS {
-  user_read
-  user_edit
-}
+model Otp {
+  id        String   @id @unique @default(uuid())
+  email     String
+  code      Int
+  create_at DateTime @default(now())
 
-enum ROLE {
-  ADMIN
-  USER
+  @@map("t_otp")
 }
 
 enum CONVERSATION_TYPE {
