@@ -1,6 +1,8 @@
-name: Test
+name: Continue Integration tests
 on:
   pull_request:
+    branches:
+      - develop
   push:
     branches:
       - main
@@ -9,24 +11,43 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x, 18.x, 16.x]
+        node-version: [16.x, 18.x, 20.x]
+    env:
+      OTP_DIGIT: 6
+      OTP_EXPIRATION_TIME: 10
+      ROUNDS_OF_HASHING: 10
+      JWT_SECRET: zjPeip
+      DATABASE_URL: "postgresql://db_username:db_password@localhost:5432/db_name?schema=public"
+      MAIL_HOST: ${{ secrets.MAIL_HOST }}
+      MAIL_USER: ${{ secrets.MAIL_USER }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      MAIL_PORT: ${{ secrets.MAIL_PORT }}
+      MAIL_FROM: ${{ secrets.MAIL_FROM }}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: test
+
+      - name: Unit tests
         run: |
           npm ci
           npm run test:cov
-      - name: npm run build
-        run: |
-          npm run build
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
-          file: ./api/coverage/clover.xml
+          file: ../src/coverage/clover.xml
           flags: unittests
           name: lib
           fail_ci_if_error: false
+      
+      - name: E2E tests
+        run: |
+          chmod +x scripts/*
+          npm run test:e2e:ci
+  
+      - name: npm run build
+        run: |
+          npm run build
