@@ -31,7 +31,7 @@ export abstract class BaseController {
     return BaseController.jsonResponse(
       this.res,
       400,
-      message ? message : "Unauthorized",
+      message ? message : "Bad Request",
     );
   }
 

@@ -46,7 +46,7 @@ describe("UserController (SignUp)", () => {
         const newUser = {
           password: "Wibrc@34839",
           username: "username",
-          profilePicture: "url",
+          profilePicture: "http://url",
           dateOfBird: "2024-10-10",
         };
 
@@ -54,10 +54,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
-          "Email is required",
-          "Must be an url",
-        ]);
+        expect(result.body.message).toBe("Email is required");
       });
 
       it("should return an error when the email does not respect the format", async () => {
@@ -70,7 +67,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual(["Invalid email"]);
+        expect(result.body.message).toBe("Invalid email");
       });
     });
 
@@ -79,7 +76,7 @@ describe("UserController (SignUp)", () => {
         const newUser = {
           email: "email@gmail.com",
           password: "Wibrc@34839",
-          profilePicture: "url",
+          profilePicture: "http://url",
           dateOfBird: "2024-10-10",
         };
 
@@ -87,10 +84,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
-          "Username is required",
-          "Must be an url",
-        ]);
+        expect(result.body.message).toBe("Username is required");
       });
 
       it("should return an error when the username is less than 6", async () => {
@@ -103,9 +97,9 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
+        expect(result.body.message).toBe(
           "username must be longer than or equal to 6 characters",
-        ]);
+        );
       });
 
       it("should return an error when the username is more than 12", async () => {
@@ -118,9 +112,9 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
+        expect(result.body.message).toBe(
           "username must be shorter than or equal to 12 characters",
-        ]);
+        );
       });
     });
 
@@ -137,10 +131,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
-          "Password is required",
-          "Must be an url",
-        ]);
+        expect(result.body.message).toBe("Password is required");
       });
 
       it("should return an error when the password is less than 10", async () => {
@@ -153,9 +144,9 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
+        expect(result.body.message).toBe(
           "Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character",
-        ]);
+        );
       });
 
       it("should return an error when the password is more than 20", async () => {
@@ -168,9 +159,9 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
+        expect(result.body.message).toBe(
           "Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character",
-        ]);
+        );
       });
     });
 
@@ -188,7 +179,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual(["Must be an url"]);
+        expect(result.body.message).toBe("Must be an url");
       });
 
       it("should return an error message when the date of bird provided is not at  at the right format", async () => {
@@ -203,9 +194,7 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
-          "Date of bird has a wrong format",
-        ]);
+        expect(result.body.message).toBe("Date of bird has a wrong format");
       });
 
       it("should return an error message when the language provided is not among those supported", async () => {
@@ -221,9 +210,9 @@ describe("UserController (SignUp)", () => {
           .post(CREATE_USER_ROUTE)
           .send(newUser);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual([
+        expect(result.body.message).toBe(
           "lang must be one of the following values: FR, EN",
-        ]);
+        );
       });
     });
   });

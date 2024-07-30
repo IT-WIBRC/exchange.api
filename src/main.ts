@@ -1,8 +1,9 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { ValidationPipe } from "@nestjs/common";
+import { BadRequestException, ValidationPipe } from "@nestjs/common";
 import helmet from "helmet";
+import { ValidationError } from "class-validator";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,13 @@ async function bootstrap() {
       stopAtFirstError: true,
       whitelist: true,
       transform: true,
+      exceptionFactory: (errors: ValidationError[]) => {
+        const firstError = errors[errors.length - 1];
+        return new BadRequestException({
+          message:
+            firstError.constraints[Object.keys(firstError.constraints)[0]],
+        });
+      },
     }),
   );
 
@@ -26,7 +34,9 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("api", app, document, {
+    yamlDocumentUrl: "exchange.yaml",
+  });
   await app.listen(3000);
 }
 
