@@ -88,3 +88,14 @@ $ npm run format
 # eslint lintage
 $ npm run lint
 ```
+
+## Generate yaml file
+
+
+    1. Run the server (Make sure that the database is running with valid configurations)
+
+    2. Open it on the browser like [http://localhost:3000/exchange.yaml](http://localhost:3000/exchange.yaml)
+
+    3. You will se the yaml file and then copy it and paste it into the file located (specs/exchange.yaml)
+
+    4. Rename the operations name and remove empty properties

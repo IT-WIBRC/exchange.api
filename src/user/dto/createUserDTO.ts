@@ -13,7 +13,7 @@ import {
 import { LANG } from "./LANGUAGE";
 
 export class CreateUserDTO {
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @MaxLength(12)
   @MinLength(6)
   @Matches(/^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/, {
@@ -22,7 +22,7 @@ export class CreateUserDTO {
   @IsNotEmpty({ message: "Username is required" })
   readonly username: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,20}$/,
     {
@@ -33,7 +33,7 @@ export class CreateUserDTO {
   @IsNotEmpty({ message: "Password is required" })
   readonly password: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: true })
   @IsEmail(
     {
       allow_utf8_local_part: true,
@@ -45,7 +45,7 @@ export class CreateUserDTO {
 
   @IsUrl({}, { message: "Must be an url" })
   @IsOptional()
-  @ApiProperty()
+  @ApiProperty({ required: false })
   readonly profilePicture?: string;
 
   @IsDateString(
@@ -57,13 +57,16 @@ export class CreateUserDTO {
       message: "Date of bird has a wrong format",
     },
   )
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly dateOfBird?: string;
 
   @ApiProperty({
+    description: "User language",
     enum: LANG,
     example: LANG.EN,
+    required: false,
+    default: LANG.EN,
   })
   @IsEnum(LANG)
   @IsOptional()

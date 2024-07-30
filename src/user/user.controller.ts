@@ -5,9 +5,18 @@ import {
   HttpStatus,
   Post,
   Res,
-  ValidationPipe,
 } from "@nestjs/common";
-import { ApiCreatedResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
 import { CreateUserDTO } from "../user/dto/createUserDTO";
 import { SignUpUseCase } from "../user/useCases/signUp/SignUpUseCase";
 import { SignUpError } from "../user/useCases/signUp/SignUpError";
@@ -20,6 +29,8 @@ import { ResentOtpDTO } from "./dto/resentOtpDTO";
 import { ResendOtpUseCase } from "./useCases/resendOtp/ResendOtpUseCase";
 import { ResendOtpError } from "./useCases/resendOtp/ResendOtpError";
 import { GetRoleByNameError } from "../role/useCases/getRoleByName/GetRoleByNameError";
+import { ClientError } from "../core/errors/ClientError";
+import CustomValidationPipe from "../core/pipes/CustomValidationPipe";
 
 @Controller("user")
 @ApiTags("user")
@@ -34,17 +45,22 @@ export class UserController extends BaseController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: "User registration" })
-  @ApiCreatedResponse()
+  @ApiOperation({
+    summary: "User registration",
+    description: "User registration",
+    operationId: "registration",
+  })
+  @ApiCreatedResponse({ description: "User created" })
+  @ApiConflictResponse({
+    type: ClientError,
+    description: "User information conflict",
+  })
+  @ApiInternalServerErrorResponse({
+    type: ClientError,
+    description: "Server error",
+  })
   async signUp(
-    @Body(
-      new ValidationPipe({
-        stopAtFirstError: true,
-        skipMissingProperties: false,
-        transform: true,
-        whitelist: true,
-      }),
-    )
+    @Body(CustomValidationPipe())
     createUserDto: CreateUserDTO,
     @Res() response: Response,
   ) {
@@ -74,17 +90,28 @@ export class UserController extends BaseController {
 
   @Post("otp-confirmation")
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: "Enable user account" })
-  @ApiCreatedResponse()
+  @ApiOperation({
+    summary: "Enable user account",
+    description: "Enable user account",
+    operationId: "enableUser",
+  })
+  @ApiOkResponse({ description: "Operation successful" })
+  @ApiConflictResponse({
+    type: ClientError,
+    description: "Information conflict",
+  })
+  @ApiNotFoundResponse({ type: ClientError, description: "User not found" })
+  @ApiForbiddenResponse({ type: ClientError, description: "Otp has expired" })
+  @ApiBadRequestResponse({
+    type: ClientError,
+    description: "Wrong otp provided",
+  })
+  @ApiInternalServerErrorResponse({
+    type: ClientError,
+    description: "Server error",
+  })
   async enableUser(
-    @Body(
-      new ValidationPipe({
-        stopAtFirstError: true,
-        skipMissingProperties: false,
-        transform: true,
-        whitelist: true,
-      }),
-    )
+    @Body(CustomValidationPipe())
     otpDto: OtpDTO,
     @Res() response: Response,
   ) {
@@ -118,17 +145,23 @@ export class UserController extends BaseController {
 
   @Post("otp-resend")
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: "Resent otp code" })
-  @ApiCreatedResponse()
+  @ApiOperation({
+    summary: "Resent otp code",
+    description: "Resent otp code",
+    operationId: "resendOtp",
+  })
+  @ApiOkResponse({ description: "successful operation" })
+  @ApiConflictResponse({
+    type: ClientError,
+    description: "The user is already active",
+  })
+  @ApiNotFoundResponse({ type: ClientError, description: "User not found" })
+  @ApiInternalServerErrorResponse({
+    type: ClientError,
+    description: "Server error",
+  })
   async resendOtp(
-    @Body(
-      new ValidationPipe({
-        stopAtFirstError: true,
-        skipMissingProperties: false,
-        transform: true,
-        whitelist: true,
-      }),
-    )
+    @Body(CustomValidationPipe())
     resentOtp: ResentOtpDTO,
     @Res() response: Response,
   ) {

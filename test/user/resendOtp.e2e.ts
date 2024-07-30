@@ -48,7 +48,7 @@ describe("UserController (Resend Otp)", () => {
           .post(RESEND_OTP_ROUTE)
           .send({});
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual(["email must be an email"]);
+        expect(result.body.message).toBe("email must be an email");
       });
 
       it("should return an error when the email is not at the right format", async () => {
@@ -60,7 +60,7 @@ describe("UserController (Resend Otp)", () => {
           .post(RESEND_OTP_ROUTE)
           .send(resendOtp);
         expect(result.statusCode).toBe(400);
-        expect(result.body.message).toEqual(["email must be an email"]);
+        expect(result.body.message).toBe("email must be an email");
       });
     });
   });
@@ -74,7 +74,7 @@ describe("UserController (Resend Otp)", () => {
           code: "123456",
         });
       expect(result.statusCode).toBe(404);
-      expect(result.body.message).toEqual(
+      expect(result.body.message).toBe(
         "The unknownUser@email.com is not found",
       );
     });
