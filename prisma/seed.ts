@@ -50,8 +50,7 @@ const initAdminUser = async (): Promise<void> => {
 };
 
 async function main() {
-  await initDefaultRoles();
-  await initAdminUser();
+  await Promise.all([initDefaultRoles(), initAdminUser()]);
 }
 
 main()

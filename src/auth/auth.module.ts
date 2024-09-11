@@ -6,6 +6,9 @@ import { JwtModule } from "@nestjs/jwt";
 import { PrismaModule } from "../prisma/prisma.module";
 import { UserModule } from "../user/user.module";
 import { MailModule } from "../mail/mail.module";
+import { LocalStrategy } from "./strategies/local.strategy";
+import { REPOSITORIES_PROVIDER } from "../helpers/constants";
+import { UserRepository } from "../user/repositories/user.repository";
 
 @Module({
   imports: [
@@ -19,6 +22,10 @@ import { MailModule } from "../mail/mail.module";
     MailModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    { provide: REPOSITORIES_PROVIDER.USER, useClass: UserRepository },
+  ],
 })
 export class AuthModule {}

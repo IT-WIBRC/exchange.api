@@ -99,3 +99,51 @@ $ npm run lint
     3. You will se the yaml file and then copy it and paste it into the file located (specs/exchange.yaml)
 
     4. Rename the operations name and remove empty properties
+
+
+## First launching on the dev environment
+ 
+```bash
+# Build container in background on podman if using it
+$ podman-compose up -d
+
+# Build container in background on docker if using it
+$ or docker-compose up -d
+
+# Init database with schema and seeds
+$ npm run init:dev
+
+# Launch dev server
+$ npm run dev
+```
+
+## Env variables
+
+ `PORT`: port env (Default: 3000)
+ `APP_ENV`: define the current env (Default: dev)
+
+# DB
+
+ `DATABASE_URL`: This is the database url used to have access to it
+
+# Secrets
+
+ `JWT_SECRET`: Secret used to hash the password
+ `ROUNDS_OF_HASHING`: The round of hashing (Default: 10)
+
+ `LOG_LEVEL`: log level
+ `OTP_DIGIT`: The number of digit for the otp code
+ `OTP_EXPIRATION_TIME`: the otp expiration time in minutes (Default: 10)
+
+# Mail
+
+ `MAIL_HOST`: Mail host (gmail or other) (Default: smtp.gmail.com)
+ `MAIL_USER`: The user email that will send email to the client (optional)
+ `MAIL_PASSWORD`: The app password created or token used by the email host to identify his client 
+ `MAIL_PORT`: The port used by the mail provider (Default: 585)
+ `MAIL_FROM`: The email used to send email to the app user 
+
+# Providers token
+
+GOOGLE_ACCESS_TOKEN
+FACEBOOK_ACCESS_TOKEN
