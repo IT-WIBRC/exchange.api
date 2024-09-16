@@ -43,11 +43,10 @@ jobs:
           name: lib
           fail_ci_if_error: false
       
+      - name: npm run build
+        run: npm run build
+
       - name: E2E tests
         run: |
           chmod +x scripts/*
           npm run test:e2e:ci
-  
-      - name: npm run build
-        run: |
-          npm run build

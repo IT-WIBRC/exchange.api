@@ -33,7 +33,7 @@ import { ClientError } from "../core/errors/ClientError";
 import CustomValidationPipe from "../core/pipes/CustomValidationPipe";
 
 @Controller("user")
-@ApiTags("user")
+@ApiTags("User")
 export class UserController extends BaseController {
   constructor(
     private signUpUseCase: SignUpUseCase,

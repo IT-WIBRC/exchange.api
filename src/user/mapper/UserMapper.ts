@@ -83,7 +83,7 @@ export class UserMapper {
         createdAt: user.create_at,
         roles: [],
         profile: UserMapper.fromPrismaProfileToEntity(user.profile),
-        password: "",
+        password: user.password,
       },
       new UniqueEntityID(user.id),
     );
