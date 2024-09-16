@@ -119,31 +119,31 @@ $ npm run dev
 
 ## Env variables
 
- `PORT`: port env (Default: 3000)
- `APP_ENV`: define the current env (Default: dev)
+ - `PORT`: port env (Default: 3000)
+ - `APP_ENV`: define the current env (Default: dev)
 
-# DB
+### DB
 
- `DATABASE_URL`: This is the database url used to have access to it
+ - `DATABASE_URL`: This is the database url used to have access to it
 
-# Secrets
+### Secrets
 
- `JWT_SECRET`: Secret used to hash the password
- `ROUNDS_OF_HASHING`: The round of hashing (Default: 10)
+ - `JWT_SECRET`: Secret used to hash the password
+ - `ROUNDS_OF_HASHING`: The round of hashing (Default: 10)
 
- `LOG_LEVEL`: log level
- `OTP_DIGIT`: The number of digit for the otp code
- `OTP_EXPIRATION_TIME`: the otp expiration time in minutes (Default: 10)
+ - `LOG_LEVEL`: log level
+ - `OTP_DIGIT`: The number of digit for the otp code
+ - `OTP_EXPIRATION_TIME`: the otp expiration time in minutes (Default: 10)
 
-# Mail
+### Mail
 
- `MAIL_HOST`: Mail host (gmail or other) (Default: smtp.gmail.com)
- `MAIL_USER`: The user email that will send email to the client (optional)
- `MAIL_PASSWORD`: The app password created or token used by the email host to identify his client 
- `MAIL_PORT`: The port used by the mail provider (Default: 585)
- `MAIL_FROM`: The email used to send email to the app user 
+ - `MAIL_HOST`: Mail host (gmail or other) (Default: smtp.gmail.com)
+ - `MAIL_USER`: The user email that will send email to the client (optional)
+ - `MAIL_PASSWORD`: The app password created or token used by the email host to identify his client 
+ - `MAIL_PORT`: The port used by the mail provider (Default: 585)
+ - `MAIL_FROM`: The email used to send email to the app user 
 
-# Providers token
+### Providers token
 
-GOOGLE_ACCESS_TOKEN
-FACEBOOK_ACCESS_TOKEN
+- `GOOGLE_ACCESS_TOKEN` :
+- `FACEBOOK_ACCESS_TOKEN` :

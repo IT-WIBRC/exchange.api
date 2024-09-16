@@ -10,5 +10,4 @@ $DIR/wait-for-it.sh "${DATABASE_URL}" -- echo '🟢 - Database is ready!'
 
 npx prisma migrate dev --name init
 npx prisma db seed
-npx nest start
 npx jest --config ./test/jest-e2e.json
